@@ -6,12 +6,15 @@ import io.restassured.response.ValidatableResponse;
 import lombok.AllArgsConstructor;
 import model.Courier;
 import model.Credentials;
+import model.Order;
 
 import static io.restassured.RestAssured.given;
 
 @AllArgsConstructor
 public class ScooterServiceClient {
     private String BASE_URI;
+
+
 
     @Step("Создание курьера")
     public ValidatableResponse createCourier(Courier courier) {
@@ -43,11 +46,23 @@ public class ScooterServiceClient {
     }
 
     @Step("Создание заказа")
-    public ValidatableResponse createOrder(int courierId) {
+    public ValidatableResponse createOrder(Order order) {
         return given().filter(new AllureRestAssured())
                 .baseUri(BASE_URI)
                 .header("Content-Type", "application/json")
+                .body(order)
                 .post("/api/v1/orders")
                 .then();
+    }
+
+    @Step("Отмена заказа")
+    public ValidatableResponse cancelOrder(int trackId) {
+        return given().filter(new AllureRestAssured())
+                .baseUri(BASE_URI)
+                .header("Content-Type", "application/json")
+                .body("{\"track\":" + trackId + "}")
+                .post("/api/v1/orders/cancel/")
+                .then();
+
     }
 }
