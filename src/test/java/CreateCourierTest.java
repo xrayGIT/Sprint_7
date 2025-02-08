@@ -1,5 +1,6 @@
 import client.ScooterServiceClient;
 import helper.Helper;
+import io.qameta.allure.Allure;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ExtractableResponse;
 import model.Courier;
@@ -19,7 +20,7 @@ public class CreateCourierTest {
     public void prereq() {
         scooterServiceClient = new ScooterServiceClient(BASE_URI);
         courier = new Courier(Helper.generateRandomLogin(), "passtest1", "Some_courier_name");
-        scooterServiceClient.createCourier(courier)
+        scooterServiceClient.createCourier(courier) // на Junit 4 не нашел не сложного способа создавать курьера только для нужных кейсов, на JUNUT 5 не стал переделывать. Так что в запусках иногда присутствует не нужный доп шаг создания курьера
                 .assertThat()
                 .statusCode(201)
                 .body("ok", equalTo(true));
@@ -86,7 +87,8 @@ public class CreateCourierTest {
                     .assertThat()
                     .body("ok", equalTo(true));
         } else {
-
+            Allure.step("Не возможно найти ID курьера после попытки логина", () -> {
+            });
         }
     }
 }

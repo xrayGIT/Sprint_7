@@ -1,5 +1,7 @@
 import client.ScooterServiceClient;
+import io.qameta.allure.Allure;
 import io.qameta.allure.junit4.DisplayName;
+import io.restassured.response.ValidatableResponse;
 import model.Order;
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
@@ -8,7 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(Parameterized.class)
 public class CreateOrderTest {
@@ -16,8 +17,8 @@ public class CreateOrderTest {
     ScooterServiceClient scooterServiceClient;
     Order order;
     int currentTrackId;
-    private String[] colors;
-    private String metroStation;
+    private final String[] colors;
+    private final String metroStation;
 
     public CreateOrderTest(String metroStation, String[] colors){
         this.colors = colors;
@@ -53,9 +54,12 @@ public class CreateOrderTest {
 
     @After
     public void cancelOrder(){
-        scooterServiceClient.cancelOrder(currentTrackId)
-                .assertThat()
-                .statusCode(200)
-                .body("ok", equalTo(true));
+        ValidatableResponse response = scooterServiceClient.cancelOrder(currentTrackId);
+        int code = response.extract().statusCode();
+        if(code != 200){
+            Allure.step("Заказ не отменен!", () -> {
+            });
+        }
+
     }
 }

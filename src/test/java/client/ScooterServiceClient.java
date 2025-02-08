@@ -61,7 +61,18 @@ public class ScooterServiceClient {
                 .baseUri(BASE_URI)
                 .header("Content-Type", "application/json")
                 .body("{\"track\":" + trackId + "}")
-                .post("/api/v1/orders/cancel/")
+                .put("/api/v1/orders/cancel")
+                .then();
+
+    }
+
+    @Step("Получить список заказов")
+    public ValidatableResponse getOrdersList(int rowsLimit) {
+        return given().filter(new AllureRestAssured())
+                .baseUri(BASE_URI)
+                .header("Content-Type", "application/json")
+                .queryParam("limit", rowsLimit)
+                .get("/api/v1/orders")
                 .then();
 
     }
