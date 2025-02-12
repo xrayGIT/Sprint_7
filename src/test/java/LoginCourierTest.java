@@ -1,4 +1,5 @@
 import client.ScooterServiceClient;
+import helper.Enviroment;
 import helper.Helper;
 import io.qameta.allure.junit4.DisplayName;
 import model.Courier;
@@ -12,12 +13,11 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 public class LoginCourierTest {
     Courier courier;
-    public static final String BASE_URI = "http://qa-scooter.praktikum-services.ru/";
     ScooterServiceClient scooterServiceClient;
 
     @Before
     public void prereq() {
-        scooterServiceClient = new ScooterServiceClient(BASE_URI);
+        scooterServiceClient = new ScooterServiceClient(Enviroment.BASE_URL);
         courier = new Courier(Helper.generateRandomLogin(), "passtest1", "Some_courier_name");
         scooterServiceClient.createCourier(courier)
                 .assertThat()

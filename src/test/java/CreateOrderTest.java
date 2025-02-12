@@ -1,6 +1,8 @@
 import client.ScooterServiceClient;
+import helper.Enviroment;
 import io.qameta.allure.Allure;
 import io.qameta.allure.junit4.DisplayName;
+import io.qameta.allure.model.Status;
 import io.restassured.response.ValidatableResponse;
 import model.Order;
 import org.hamcrest.CoreMatchers;
@@ -13,7 +15,6 @@ import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
 public class CreateOrderTest {
-    public static final String BASE_URI = "http://qa-scooter.praktikum-services.ru/";
     ScooterServiceClient scooterServiceClient;
     Order order;
     int currentTrackId;
@@ -37,7 +38,7 @@ public class CreateOrderTest {
 
     @Before
     public void prereq() {
-        scooterServiceClient = new ScooterServiceClient(BASE_URI);
+        scooterServiceClient = new ScooterServiceClient(Enviroment.BASE_URL);
         order = new Order(metroStation, colors);
         currentTrackId = scooterServiceClient.createOrder(order)
                 .assertThat()
@@ -57,8 +58,7 @@ public class CreateOrderTest {
         ValidatableResponse response = scooterServiceClient.cancelOrder(currentTrackId);
         int code = response.extract().statusCode();
         if(code != 200){
-            Allure.step("Заказ не отменен!", () -> {
-            });
+            Allure.step("Заказ не отменен!", Status.BROKEN);
         }
 
     }

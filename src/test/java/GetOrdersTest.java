@@ -1,4 +1,5 @@
 import client.ScooterServiceClient;
+import helper.Enviroment;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import model.Order;
@@ -12,12 +13,11 @@ import static org.junit.Assert.assertNotNull;
 
 
 public class GetOrdersTest {
-    public static final String BASE_URI = "http://qa-scooter.praktikum-services.ru/";
     ScooterServiceClient scooterServiceClient;
 
     @Before
     public void prereq() {
-        scooterServiceClient = new ScooterServiceClient(BASE_URI);
+        scooterServiceClient = new ScooterServiceClient(Enviroment.BASE_URL);
     }
 
     @Test

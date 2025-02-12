@@ -1,7 +1,9 @@
 import client.ScooterServiceClient;
+import helper.Enviroment;
 import helper.Helper;
 import io.qameta.allure.Allure;
 import io.qameta.allure.junit4.DisplayName;
+import io.qameta.allure.model.Status;
 import io.restassured.response.ExtractableResponse;
 import model.Courier;
 import model.Credentials;
@@ -13,12 +15,11 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 public class CreateCourierTest {
     Courier courier;
-    public static final String BASE_URI = "http://qa-scooter.praktikum-services.ru/";
     ScooterServiceClient scooterServiceClient;
 
     @Before
     public void prereq() {
-        scooterServiceClient = new ScooterServiceClient(BASE_URI);
+        scooterServiceClient = new ScooterServiceClient(Enviroment.BASE_URL);
         courier = new Courier(Helper.generateRandomLogin(), "passtest1", "Some_courier_name");
         scooterServiceClient.createCourier(courier) // на Junit 4 не нашел не сложного способа создавать курьера только для нужных кейсов, на JUNUT 5 не стал переделывать. Так что в запусках иногда присутствует не нужный доп шаг создания курьера
                 .assertThat()
@@ -35,10 +36,6 @@ public class CreateCourierTest {
     @Test
     @DisplayName("Дубликат курьера не может быть создан")
     public void createCourier_theSameCourierCantBeCreated() {
-//        scooterServiceClient.createCourier(courier)
-//                .assertThat()
-//                .statusCode(201)
-//                .body("ok", equalTo(true));
         scooterServiceClient.createCourier(courier)
                 .assertThat()
                 .statusCode(409)
@@ -87,8 +84,7 @@ public class CreateCourierTest {
                     .assertThat()
                     .body("ok", equalTo(true));
         } else {
-            Allure.step("Не возможно найти ID курьера после попытки логина", () -> {
-            });
+            Allure.step("Не возможно найти ID курьера после попытки логина", Status.BROKEN);
         }
     }
 }

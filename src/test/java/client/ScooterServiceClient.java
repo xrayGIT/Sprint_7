@@ -13,7 +13,10 @@ import static io.restassured.RestAssured.given;
 @AllArgsConstructor
 public class ScooterServiceClient {
     private String BASE_URI;
-
+    private static final String COURIER_API = "/api/v1/courier";
+    private static final String LOGIN_COURIER_API = "/api/v1/courier/login";
+    private static final String ORDERS_API = "/api/v1/orders";
+    private static final String CANCEL_ORDER_API = "/api/v1/orders/cancel";
 
 
     @Step("Создание курьера")
@@ -22,7 +25,7 @@ public class ScooterServiceClient {
                 .baseUri(BASE_URI)
                 .header("Content-Type", "application/json")
                 .body(courier)
-                .post("/api/v1/courier")
+                .post(COURIER_API)
                 .then();
     }
 
@@ -31,13 +34,13 @@ public class ScooterServiceClient {
         return given().filter(new AllureRestAssured()).baseUri(BASE_URI)
                 .header("Content-Type", "application/json")
                 .body(credentials)
-                .post("/api/v1/courier/login")
+                .post(LOGIN_COURIER_API)
                 .then();
     }
 
     @Step("Удаление курьера")
     public ValidatableResponse deleteCourier(int courierId) {
-        String endPoint = "/api/v1/courier/" + courierId;
+        String endPoint = COURIER_API + "/" + courierId;
         return given().filter(new AllureRestAssured())
                 .baseUri(BASE_URI)
                 .header("Content-Type", "application/json")
@@ -51,7 +54,7 @@ public class ScooterServiceClient {
                 .baseUri(BASE_URI)
                 .header("Content-Type", "application/json")
                 .body(order)
-                .post("/api/v1/orders")
+                .post(ORDERS_API)
                 .then();
     }
 
@@ -61,7 +64,7 @@ public class ScooterServiceClient {
                 .baseUri(BASE_URI)
                 .header("Content-Type", "application/json")
                 .body("{\"track\":" + trackId + "}")
-                .put("/api/v1/orders/cancel")
+                .put(CANCEL_ORDER_API)
                 .then();
 
     }
@@ -72,7 +75,7 @@ public class ScooterServiceClient {
                 .baseUri(BASE_URI)
                 .header("Content-Type", "application/json")
                 .queryParam("limit", rowsLimit)
-                .get("/api/v1/orders")
+                .get(ORDERS_API)
                 .then();
 
     }

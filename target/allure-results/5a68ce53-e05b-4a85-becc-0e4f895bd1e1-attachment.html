@@ -1,0 +1,44 @@
+<div>POST to http://qa-scooter.praktikum-services.ru/api/v1/orders</div>
+
+<h4>Body</h4>
+<div>
+    <pre class="preformated-text">
+{
+    &quot;firstName&quot;: &quot;Ronny&quot;,
+    &quot;lastName&quot;: &quot;Swift&quot;,
+    &quot;address&quot;: &quot;091 Kozey Glen, New Milly, PA 79111&quot;,
+    &quot;metroStation&quot;: &quot;3&quot;,
+    &quot;phone&quot;: &quot;479-841-1996 x39425&quot;,
+    &quot;rentTime&quot;: 1,
+    &quot;deliveryDate&quot;: &quot;2025-02-20&quot;,
+    &quot;comment&quot;: &quot;some comment for Ronny&quot;,
+    &quot;color&quot;: [
+        
+    ]
+}    </pre>
+</div>
+
+<h4>Headers</h4>
+<div>
+        <div>Accept: */*</div>
+        <div>Content-Type: application/json</div>
+</div>
+
+
+
+<h4>Curl</h4>
+<div>
+curl -v -X POST &#39;http://qa-scooter.praktikum-services.ru/api/v1/orders&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;firstName&quot;: &quot;Ronny&quot;,
+    &quot;lastName&quot;: &quot;Swift&quot;,
+    &quot;address&quot;: &quot;091 Kozey Glen, New Milly, PA 79111&quot;,
+    &quot;metroStation&quot;: &quot;3&quot;,
+    &quot;phone&quot;: &quot;479-841-1996 x39425&quot;,
+    &quot;rentTime&quot;: 1,
+    &quot;deliveryDate&quot;: &quot;2025-02-20&quot;,
+    &quot;comment&quot;: &quot;some comment for Ronny&quot;,
+    &quot;color&quot;: [
+        
+    ]
+}&#39;
+</div>
